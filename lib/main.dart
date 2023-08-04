@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'Screens/HomePage.dart';
+import 'Screens/IntroAuthScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,39 +19,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
+      home: NavigationPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-  });
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<NavigationPage> createState() => _NavigationPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NavigationPageState extends State<NavigationPage> {
+  bool isSigned = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("Zoom Clone"),
-        ),
-        body: const Column(
-          children: [
-            Text("yeah"),
-          ], 
-        ));
+      body: isSigned == false ? const IntroAuthScreen() : const HomePage(),
+    );
   }
 }
