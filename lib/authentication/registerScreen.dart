@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 
@@ -103,7 +105,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 20),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      try {
+                        int count = 0;
+                        FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((signeduser) {
+                          usercollection.doc(signeduser.user!.uid).set({
+                            'username': usernameController.text,
+                            'email': emailController.text,
+                            'password': passwordController.text,
+                            'uid': signeduser.user!.uid
+                          });
+                        });
+                        Navigator.popUntil(context, (route) {
+                          return count++ == 2;
+                        });
+                      } catch (e) {
+                        print(e);
+                        var snackbar = SnackBar(
+                            content: Text(
+                          e.toString(),
+                          style: mystyle(20),
+                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      }
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width / 2,
                       height: 45,
