@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:zoom_clone/authentication/navigatAuthScreen.dart';
 import 'package:zoom_clone/variables.dart';
 
 class IntroAuthScreen extends StatefulWidget {
@@ -59,7 +60,10 @@ class _IntroAuthScreenState extends State<IntroAuthScreen> {
         ),
       ],
       onDone: () {
-        // When done button is press
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const navigateurAuthScreen()));
       },
       showNextButton: true,
       skip: const Icon(
