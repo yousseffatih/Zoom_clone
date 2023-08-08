@@ -28,7 +28,7 @@ class _createMeetingState extends State<createMeeting> {
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
-              "Create a code and share it with your friends",
+              "Create a code and share it with your friends.",
               style: mystyle(20),
               textAlign: TextAlign.center,
             ),
@@ -53,7 +53,7 @@ class _createMeetingState extends State<createMeeting> {
             child: Container(
               height: 50,
               width: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient:
                     LinearGradient(colors: GradientColors.facebookMessenger),
               ),
