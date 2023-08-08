@@ -15,6 +15,7 @@ class ProfielScreen extends StatefulWidget {
 class _ProfielScreenState extends State<ProfielScreen> {
   String username = "";
   bool dataishere = false;
+  TextEditingController usernameController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +34,64 @@ class _ProfielScreenState extends State<ProfielScreen> {
       username = userdoc.data()!['username'];
       dataishere = true;
     });
+  }
+
+  openEditProfileDialoge() async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              height: 200,
+              child: Column(
+                children: [
+                  const SizedBox(height: 30),
+                  Container(
+                    margin: const EdgeInsets.only(left: 30, right: 30),
+                    child: TextField(
+                      controller: usernameController,
+                      style: mystyle(
+                        18,
+                        Colors.black,
+                      ),
+                      decoration: InputDecoration(
+                        label: const Text("Update Username"),
+                        labelStyle: mystyle(16, Colors.grey),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  InkWell(
+                    onTap: () => editProfie(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(colors: GradientColors.cherry),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Update Now",
+                          style: mystyle(17, Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  editProfie() async {
+    usercollection.doc(FirebaseAuth.instance.currentUser!.uid).update({
+      'username': usernameController.text,
+    });
+    setState(() {
+      username = usernameController.text;
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -79,17 +138,20 @@ class _ProfielScreenState extends State<ProfielScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 30),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          gradient:
-                              LinearGradient(colors: GradientColors.cherry),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Edit Profile",
-                            style: mystyle(17, Colors.white),
+                      InkWell(
+                        onTap: () => openEditProfileDialoge(),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            gradient:
+                                LinearGradient(colors: GradientColors.cherry),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Edit Profile",
+                              style: mystyle(17, Colors.white),
+                            ),
                           ),
                         ),
                       )
